@@ -126,10 +126,10 @@ class MainWindow(QMainWindow):
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
 
-        # Боковая панель переключения страниц
+        # Боковая панель переключения страниц с методически корректными названиями
         self.sidebar = QListWidget()
-        self.sidebar.setFixedWidth(180)
-        self.sidebar.addItems(["Наборы данных", "Гистограмма", "ЛР2"])
+        self.sidebar.setFixedWidth(200)
+        self.sidebar.addItems(["Исходные данные", "ЛР1: Временные хар.", "ЛР2: Эффективность"])
 
         self.stack = QStackedWidget()
         self.sidebar.currentRowChanged.connect(self.stack.setCurrentIndex)
@@ -263,8 +263,8 @@ class MainWindow(QMainWindow):
             group.setLayout(vbox)
             return group
 
-        container_layout.addWidget(create_set_section("Набор 1 (Регулирование)", "Регулирование"))
-        container_layout.addWidget(create_set_section("Набор 2 (Восстановление)", "Восстановление"))
+        container_layout.addWidget(create_set_section("Подтема 1 (Регулирование)", "Регулирование"))
+        container_layout.addWidget(create_set_section("Подтема 2 (Восстановление)", "Восстановление"))
 
         scroll.setWidget(container_widget)
         layout.addWidget(scroll)
@@ -396,11 +396,11 @@ class MainWindow(QMainWindow):
         layout = QHBoxLayout(self.page_hist)
         control_panel = QVBoxLayout()
 
-        group_params = QGroupBox("Параметры симуляции")
+        group_params = QGroupBox("Параметры ЛР1 (Моделирование времени)")
         form_layout = QFormLayout()
 
         self.set_combo = QComboBox()
-        self.set_combo.addItems(["Набор 1 (Регулирование)", "Набор 2 (Восстановление)"])
+        self.set_combo.addItems(["Подтема 1 (Регулирование)", "Подтема 2 (Восстановление)"])
 
         self.spin_n = QSpinBox()
         self.spin_n.setRange(100, 10000000)
@@ -418,7 +418,7 @@ class MainWindow(QMainWindow):
         self.spin_sigma.setValue(0.1)
         self.spin_sigma.setSingleStep(0.05)
 
-        form_layout.addRow("Набор:", self.set_combo)
+        form_layout.addRow("Подтема:", self.set_combo)
         form_layout.addRow("Выборка (N):", self.spin_n)
         form_layout.addRow("Интервалы (K):", self.spin_bins)
         form_layout.addRow("σ/μ норм. шагов:", self.spin_sigma)
@@ -430,7 +430,7 @@ class MainWindow(QMainWindow):
         group_params.setLayout(form_layout)
         control_panel.addWidget(group_params)
 
-        group_stats = QGroupBox("Статистика")
+        group_stats = QGroupBox("Статистические оценки")
         stats_layout = QVBoxLayout()
         self.lbl_mean = QLabel("t_ср: -")
         self.lbl_mean_theory = QLabel("t_ср теор.: -")
@@ -463,7 +463,7 @@ class MainWindow(QMainWindow):
         layout = QHBoxLayout(self.page_sim)
 
         left_panel = QVBoxLayout()
-        group_sys = QGroupBox("Параметры ЛР2")
+        group_sys = QGroupBox("Параметры ЛР2 (Эффективность СМ)")
         form_layout = QFormLayout()
 
         self.spin_rho1 = QDoubleSpinBox()
@@ -495,14 +495,14 @@ class MainWindow(QMainWindow):
         self.combo_mode = QComboBox()
         self.combo_mode.addItems(["Регул + восст", "Регул", "Восстановления"])
 
-        form_layout.addRow("ρ1 регул:", self.spin_rho1)
-        form_layout.addRow("ρ2 восст:", self.spin_rho2)
-        form_layout.addRow("λ1 заявок:", self.spin_lambda1)
-        form_layout.addRow("λ2 отказов:", self.spin_lambda2)
+        form_layout.addRow("ρ1 регул (удельные потери):", self.spin_rho1)
+        form_layout.addRow("ρ2 восст (удельные потери):", self.spin_rho2)
+        form_layout.addRow("λ1 заявок (интенсивность):", self.spin_lambda1)
+        form_layout.addRow("λ2 отказов (интенсивность):", self.spin_lambda2)
         form_layout.addRow("Циклов N:", self.spin_iter)
         form_layout.addRow("Режим F:", self.combo_mode)
 
-        self.btn_run_lab2 = QPushButton("Рассчитать")
+        self.btn_run_lab2 = QPushButton("Рассчитать эффективность")
         self.btn_run_lab2.clicked.connect(self.run_lab2)
         form_layout.addRow(self.btn_run_lab2)
 
@@ -519,7 +519,7 @@ class MainWindow(QMainWindow):
         layout.addLayout(left_panel, 1)
 
         right_panel = QVBoxLayout()
-        right_panel.addWidget(QLabel("<b>Таблица результатов ЛР2:</b>"))
+        right_panel.addWidget(QLabel("<b>Таблица результатов ЛР2 (Функционирование системы):</b>"))
         self.table_results = QTableWidget(0, 7)
         self.table_results.setHorizontalHeaderLabels(["№", "T_отказа", "пришло", "обраб.", "аннул.", "Σ t_пр", "τ_вос"])
         self.table_results.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
