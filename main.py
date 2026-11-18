@@ -266,12 +266,18 @@ class MainWindow(QMainWindow):
                 lbl.setFixedHeight(28)
                 routes_grid.addWidget(lbl, 0, c + 1)
 
+            # пустой столбец-разделитель между шагами и весом
+            spacer_hdr = QLabel("")
+            spacer_hdr.setFixedWidth(15)
+            spacer_hdr.setFixedHeight(28)
+            routes_grid.addWidget(spacer_hdr, 0, 11)
+
             lbl_w = QLabel("вес")
             lbl_w.setAlignment(Qt.AlignCenter)
             lbl_w.setStyleSheet("font-weight: bold; color: #8e44ad; font-size: 9pt;")
             lbl_w.setFixedWidth(50)
             lbl_w.setFixedHeight(28)
-            routes_grid.addWidget(lbl_w, 0, 11)
+            routes_grid.addWidget(lbl_w, 0, 12)
 
             self.route_inputs[subtopic_name] = []
             self.route_weight_inputs[subtopic_name] = []
@@ -294,11 +300,17 @@ class MainWindow(QMainWindow):
                     row_boxes.append(le)
                 self.route_inputs[subtopic_name].append(row_boxes)
 
+                # пустой столбец-разделитель в каждой строке
+                spacer_row = QLabel("")
+                spacer_row.setFixedWidth(15)
+                spacer_row.setFixedHeight(28)
+                routes_grid.addWidget(spacer_row, row_idx + 1, 11)
+
                 w_le = QLineEdit("1.0")
                 w_le.setFixedWidth(50)
                 w_le.setFixedHeight(28)
                 w_le.setAlignment(Qt.AlignCenter)
-                routes_grid.addWidget(w_le, row_idx + 1, 11)
+                routes_grid.addWidget(w_le, row_idx + 1, 12)
                 self.route_weight_inputs[subtopic_name].append(w_le)
 
             grid_container.addLayout(routes_grid)
